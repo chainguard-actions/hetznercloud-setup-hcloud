@@ -1,14 +1,52 @@
-# hetznercloud/setup-hcloud
+# setup-hcloud
 
-Download the Hetzner Cloud CLI and add it to the PATH.
+[![CI](https://github.com/hetznercloud/setup-hcloud/actions/workflows/ci.yml/badge.svg)](https://github.com/hetznercloud/setup-hcloud/actions/workflows/ci.yml)
+[![Codecov](https://codecov.io/gh/hetznercloud/setup-hcloud/graph/badge.svg?token=R4YEGxLNvM)](https://codecov.io/gh/hetznercloud/setup-hcloud/tree/main)
 
-Hardened by [Chainguard](https://www.chainguard.dev) from the upstream action at [https://github.com/hetznercloud/setup-hcloud](https://github.com/hetznercloud/setup-hcloud).
+This action installs the [Hetzner Cloud CLI](https://github.com/hetznercloud/cli) in your `PATH`.
 
-## Versions
+# Usage
 
-| Version | Tag | Upstream commit |
-|---------|-----|-----------------|
-| v1.0.0 | [`v1.0.0`](https://github.com/chainguard-actions/hetznercloud-setup-hcloud/tree/v1.0.0) | [`1f93ae6`](https://github.com/hetznercloud/setup-hcloud/commit/1f93ae68c5f9671c2f1f1464c7619427fbf0a015) |
+The environment variable `HCLOUD_TOKEN` is required for hcloud to work properly. See the [hcloud getting started docs](https://github.com/hetznercloud/cli#getting-started) for details.
+
+**Setup the latest version:**
+
+```yaml
+steps:
+  - uses: hetznercloud/setup-hcloud@v1
+
+  - run: hcloud server-type list
+    env:
+      HCLOUD_TOKEN: ${{ secrets.HCLOUD_TOKEN }}
+```
+
+**Setup a specific version:**
+
+```yaml
+steps:
+  - uses: hetznercloud/setup-hcloud@v1
+    with:
+      hcloud-version: v1.41.1
+
+  - run: hcloud server-type list
+    env:
+      HCLOUD_TOKEN: ${{ secrets.HCLOUD_TOKEN }}
+```
+
+### Inputs
+
+- `hcloud-version` (Optional): Version of Hetzner Cloud CLI to install. Using `latest` will install the
+  [latest version of hcloud](https://github.com/hetznercloud/cli/releases/latest).
+- `github-token` (Optional): A Personal Access Token or the Github Token to access the GitHub API. If
+  none provided it will use the default Github Token.
+
+### Outputs
+
+- `hcloud-version`: Version of the Hetzner Cloud CLI that was installed.
+
+# License
+
+The scripts and documentation in this project are released under the [MIT License](LICENSE)
 
 ## Privacy
 
