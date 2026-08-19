@@ -1,0 +1,42 @@
+name: Test basic usage (latest version)
+on:
+  workflow_dispatch:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - id: action
+        uses: .
+        with:
+          github-token: ${{ github.token }}
+
+      - name: Assert hcloud-version output is set
+        env:
+          HCLOUD_VERSION: ${{ steps.action.outputs.hcloud-version }}
+        run: |
+          echo "hcloud-version: $HCLOUD_VERSION"
+          if [ -z "$HCLOUD_VERSION" ]; then
+            echo "FAIL: hcloud-version output is empty"
+            exit 1
+          fi
+          echo "PASS: hcloud-version output is '$HCLOUD_VERSION'"
+
+      - name: Assert hcloud binary is on PATH
+        run: |
+          if ! command -v hcloud >/dev/null 2>&1; then
+            echo "FAIL: hcloud binary not found on PATH"
+            exit 1
+          fi
+          echo "PASS: hcloud binary found at $(command -v hcloud)"
+
+      - name: Assert hcloud binary runs
+        run: |
+          VERSION_OUTPUT=$(hcloud version 2>&1)
+          echo "hcloud version output: $VERSION_OUTPUT"
+          if [ $? -ne 0 ]; then
+            echo "FAIL: hcloud version command failed"
+            exit 1
+          fi
+          echo "PASS: hcloud version ran successfully"
