@@ -11,6 +11,7 @@ Hardened by [Chainguard](https://www.chainguard.dev) from the upstream action at
 | v1.0.0 | [`v1.0.0`](https://github.com/chainguard-actions/hetznercloud-setup-hcloud/tree/v1.0.0) | [`1f93ae6`](https://github.com/hetznercloud/setup-hcloud/commit/1f93ae68c5f9671c2f1f1464c7619427fbf0a015) |
 | v1.0.1 | [`v1.0.1`](https://github.com/chainguard-actions/hetznercloud-setup-hcloud/tree/v1.0.1) | [`6410158`](https://github.com/hetznercloud/setup-hcloud/commit/641015849308e9ed3e3b1f3d3b0a637068c5a2af) |
 | v2.0.0 | [`v2.0.0`](https://github.com/chainguard-actions/hetznercloud-setup-hcloud/tree/v2.0.0) | [`ac9e7d7`](https://github.com/hetznercloud/setup-hcloud/commit/ac9e7d74fb41a3ca44a6a3da123bd5aa70731e3a) |
+| v2.0.1 | [`v2.0.1`](https://github.com/chainguard-actions/hetznercloud-setup-hcloud/tree/v2.0.1) | [`28cdd3f`](https://github.com/hetznercloud/setup-hcloud/commit/28cdd3fc4a4a8013e86d57c7254be72df92fcc02) |
 
 ## Privacy
 
