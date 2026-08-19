@@ -1,0 +1,42 @@
+name: Test basic usage - install latest hcloud
+on:
+  workflow_dispatch:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - id: action
+        uses: .
+        with:
+          hcloud-version: latest
+
+      - name: Assert hcloud-version output is set
+        env:
+          ACTUAL: ${{ steps.action.outputs.hcloud-version }}
+        run: |
+          echo "actual: $ACTUAL"
+          if [ -z "$ACTUAL" ]; then
+            echo "FAIL: hcloud-version output is empty"
+            exit 1
+          fi
+          echo "PASS: hcloud-version output is '$ACTUAL'"
+
+      - name: Assert hcloud is on PATH
+        run: |
+          if ! command -v hcloud >/dev/null 2>&1; then
+            echo "FAIL: hcloud not found on PATH"
+            exit 1
+          fi
+          echo "PASS: hcloud found at $(command -v hcloud)"
+
+      - name: Assert hcloud runs successfully
+        run: |
+          VERSION_OUTPUT=$(hcloud version 2>&1)
+          echo "hcloud version output: $VERSION_OUTPUT"
+          if [ $? -ne 0 ]; then
+            echo "FAIL: hcloud version command failed"
+            exit 1
+          fi
+          echo "PASS: hcloud version ran successfully"
