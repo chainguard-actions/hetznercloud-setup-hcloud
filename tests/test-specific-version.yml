@@ -1,0 +1,44 @@
+name: Test specific version installation
+on:
+  workflow_dispatch:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - id: action
+        uses: .
+        with:
+          github-token: ${{ github.token }}
+          hcloud-version: v1.43.1
+
+      - name: Assert hcloud-version output matches requested version
+        env:
+          ACTUAL: ${{ steps.action.outputs.hcloud-version }}
+        run: |
+          echo "actual: $ACTUAL"
+          EXPECTED="v1.43.1"
+          if [ "$ACTUAL" != "$EXPECTED" ]; then
+            echo "FAIL: expected '$EXPECTED' but got '$ACTUAL'"
+            exit 1
+          fi
+          echo "PASS: hcloud-version output matches '$EXPECTED'"
+
+      - name: Assert hcloud binary is on PATH
+        run: |
+          if ! command -v hcloud >/dev/null 2>&1; then
+            echo "FAIL: hcloud binary not found on PATH"
+            exit 1
+          fi
+          echo "PASS: hcloud found at $(command -v hcloud)"
+
+      - name: Assert hcloud reports correct version
+        run: |
+          VERSION_OUTPUT=$(hcloud version 2>&1)
+          echo "hcloud version output: $VERSION_OUTPUT"
+          if ! echo "$VERSION_OUTPUT" | grep -q "1.43.1"; then
+            echo "FAIL: expected version 1.43.1 in output but got: $VERSION_OUTPUT"
+            exit 1
+          fi
+          echo "PASS: hcloud reports correct version 1.43.1"
